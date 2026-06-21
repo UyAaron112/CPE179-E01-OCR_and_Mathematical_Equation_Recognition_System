@@ -3,39 +3,44 @@ from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
 import os
 
-# ==========================================
-# 🎨 PROFESSIONAL MAPÚA COLOR PALETTE 
-# ==========================================
+# -----------------------------------------------------------------------------
+# 🔌 TEAMMATE "PLUG-IN" INSTRUCTIONS:
+# When your teammate gives you their finished OCR file, drop it in the same folder, 
+# delete the "MOCK BACKEND" section below, and uncomment the real import here:
+#
+# from ocr_engine import OCREngine 
+# -----------------------------------------------------------------------------
+
+# =============================================================================
+# 1. MOCK BACKEND (Lets you test the GUI standalone without their code)
+# =============================================================================
+class MockOCREngine:
+    def extract_text(self, image_path):
+        return "MAPÚA UNIVERSITY\nIntramuros, Manila\n[Simulated OCR Output from Teammate's Engine]"
+
+class MockEqnEngine:
+    def recognizeEquation(self, image_path):
+        return "f(x) = \\int_{a}^{b} x^2 \\,dx = \\frac{b^3 - a^3}{3}"
+
+class MockTFLiteModel:
+    def loadModel(self): pass
+    def runInference(self): pass
+
+
+# =============================================================================
+# 2. PROFESSIONAL MAPÚA COLOR PALETTE 
+# =============================================================================
 MAPUA_RED    = "#9E1B32"  # Official Mapúa Cardinal Red
 MAPUA_GOLD   = "#F3A900"  # Official Mapúa Gold accent
-BG_PAGE      = "#F0F4F8"  # Soft cool-gray page background
-BG_CARD      = "#FFFFFF"  # Pure white card backgrounds
-TEXT_MAIN    = "#1E293B"  # Dark slate (softer & more pro than pure black)
-TEXT_MUTED   = "#64748B"  # Muted gray for secondary labels
-BORDER_COLOR = "#CBD5E1"  # Clean light-gray for card borders
+BG_PAGE      = "#F0F4F8"  
+BG_CARD      = "#FFFFFF"  
+TEXT_MAIN    = "#1E293B"  
+TEXT_MUTED   = "#64748B"  
+BORDER_COLOR = "#CBD5E1"  
 
-# ==========================================
-# PLACEHOLDERS FOR LOGIC LAYER
-# ==========================================
-class ImageProcessor:
-    def preprocess(self, image_path): pass
-    def segment(self, image_path): pass
-
-class OCRRecognizer:
-    def recognizeText(self, image_path):
-        return "Mapua University\nSchool of Electrical, Electronics and Computer Engineering\nCPE179P - Design Project"
-
-class EqnRecognizer:
-    def recognizeEquation(self, image_path):
-        return "f(x) = \\int_{a}^{b} x^2 \\,dx + \\sum_{i=1}^{n} y_i"
-
-class TensorFlowLite:
-    def loadModel(self): pass
-    def runInference(self, processed_image): pass
-
-# ==========================================
-# PRESENTATION LAYER (GUI)
-# ==========================================
+# =============================================================================
+# 3. PRESENTATION LAYER (GUI)
+# =============================================================================
 class OcrGuiApp:
     def __init__(self, root):
         self.root = root
@@ -45,45 +50,24 @@ class OcrGuiApp:
         
         self.image_path = None
         
-        # ----------------------------------------------------
-        # 1. TOP BRANDING BANNER
-        # ----------------------------------------------------
+        # --- Top Banner ---
         header_frame = tk.Frame(root, bg=MAPUA_RED, height=75)
         header_frame.pack(fill="x", side="top")
         header_frame.pack_propagate(False) 
 
-        title_label = tk.Label(
-            header_frame, 
-            text="MAPÚA UNIVERSITY", 
-            font=("Helvetica", 18, "bold"), 
-            bg=MAPUA_RED, fg=MAPUA_GOLD
-        )
-        title_label.pack(pady=(10, 0))
+        tk.Label(header_frame, text="MAPÚA UNIVERSITY", font=("Helvetica", 18, "bold"), bg=MAPUA_RED, fg=MAPUA_GOLD).pack(pady=(10, 0))
+        tk.Label(header_frame, text="CPE179P • Raspberry Pi OCR & Mathematical Equation Recognition System", font=("Helvetica", 10), bg=MAPUA_RED, fg="#FFFFFF").pack()
 
-        sub_label = tk.Label(
-            header_frame, 
-            text="CPE179P • Raspberry Pi OCR & Mathematical Equation Recognition System", 
-            font=("Helvetica", 10), 
-            bg=MAPUA_RED, fg="#FFFFFF"
-        )
-        sub_label.pack()
-
-        # ----------------------------------------------------
-        # 2. MAIN DASHBOARD CONTAINER (2 Columns)
-        # ----------------------------------------------------
+        # --- Main Dashboard ---
         main_container = tk.Frame(root, bg=BG_PAGE)
         main_container.pack(fill="both", expand=True, padx=20, pady=15)
 
-        # ====================================================
-        # LEFT COLUMN: INPUT CARD
-        # ====================================================
+        # Left Column (Input)
         left_card = tk.Frame(main_container, bg=BG_CARD, bd=1, relief="solid", highlightbackground=BORDER_COLOR)
         left_card.pack(side="left", fill="both", expand=True, padx=(0, 10))
 
-        left_title = tk.Label(left_card, text="1. IMAGE SOURCE", font=("Helvetica", 11, "bold"), bg=BG_CARD, fg=TEXT_MAIN)
-        left_title.pack(anchor="w", padx=20, pady=(15, 10))
+        tk.Label(left_card, text="1. IMAGE SOURCE", font=("Helvetica", 11, "bold"), bg=BG_CARD, fg=TEXT_MAIN).pack(anchor="w", padx=20, pady=(15, 10))
 
-        # Image Display Canvas
         self.image_frame = tk.Frame(left_card, width=380, height=280, bg="#E2E8F0")
         self.image_frame.pack(padx=20, pady=5)
         self.image_frame.pack_propagate(False)
@@ -91,7 +75,6 @@ class OcrGuiApp:
         self.image_label = tk.Label(self.image_frame, text="No Image Uploaded\n(Supported: JPG, PNG)", bg="#E2E8F0", fg=TEXT_MUTED, font=("Helvetica", 10))
         self.image_label.pack(expand=True)
 
-        # Action Buttons inside Left Card
         btn_container = tk.Frame(left_card, bg=BG_CARD)
         btn_container.pack(pady=(15, 20))
 
@@ -104,49 +87,38 @@ class OcrGuiApp:
 
         self.process_btn = tk.Button(
             btn_container, text="Run Inference ▶", font=("Helvetica", 10, "bold"),
-            bg=MAPUA_RED, fg="white", activebackground="#7A1527", activeforeground="white",
-            relief="flat", padx=15, pady=8, cursor="hand2", state=tk.DISABLED, command=self.process_image
+            bg="#E2E8F0", fg="#94A3B8", activebackground="#7A1527", activeforeground="white",
+            relief="flat", padx=15, pady=8, state=tk.DISABLED, command=self.process_image
         )
         self.process_btn.pack(side="left", padx=6)
 
-        # ====================================================
-        # RIGHT COLUMN: OUTPUT CARD
-        # ====================================================
+        # Right Column (Output)
         right_card = tk.Frame(main_container, bg=BG_CARD, bd=1, relief="solid", highlightbackground=BORDER_COLOR)
         right_card.pack(side="right", fill="both", expand=True, padx=(10, 0))
 
-        right_title = tk.Label(right_card, text="2. TFLITE RECOGNITION OUTPUT", font=("Helvetica", 11, "bold"), bg=BG_CARD, fg=TEXT_MAIN)
-        right_title.pack(anchor="w", padx=20, pady=(15, 10))
+        tk.Label(right_card, text="2. TFLITE RECOGNITION OUTPUT", font=("Helvetica", 11, "bold"), bg=BG_CARD, fg=TEXT_MAIN).pack(anchor="w", padx=20, pady=(15, 10))
 
-        # Monospaced Text box for mathematical alignment
         self.output_text = tk.Text(
             right_card, wrap="word", font=("Consolas", 11), 
-            bg="#F8FAFC", fg=TEXT_MAIN, bd=1, relief="solid", highlightbackground=BORDER_COLOR,
-            padx=15, pady=12
+            bg="#F8FAFC", fg=TEXT_MAIN, bd=1, relief="solid", highlightbackground=BORDER_COLOR, padx=15, pady=12
         )
         self.output_text.pack(fill="both", expand=True, padx=20, pady=5)
 
-        # Export Button at bottom right
         self.save_btn = tk.Button(
             right_card, text="⭳ Export Output to .TXT", font=("Helvetica", 10, "bold"),
-            bg="#0D9488", fg="white", activebackground="#0F766E", activeforeground="white",
-            relief="flat", padx=20, pady=8, cursor="hand2", state=tk.DISABLED, command=self.save_result
+            bg="#E2E8F0", fg="#94A3B8", activebackground="#0F766E", activeforeground="white",
+            relief="flat", padx=20, pady=8, state=tk.DISABLED, command=self.save_result
         )
         self.save_btn.pack(pady=(15, 20))
 
-        # ----------------------------------------------------
-        # 3. FOOTER
-        # ----------------------------------------------------
-        footer = tk.Label(root, text="Computer Engineering Dept. • Mapúa University • Group 6", bg=BG_PAGE, fg=TEXT_MUTED, font=("Helvetica", 8))
-        footer.pack(side="bottom", pady=(0, 8))
+        # Footer
+        tk.Label(root, text="Computer Engineering Dept. • Mapúa University • Group 6", bg=BG_PAGE, fg=TEXT_MUTED, font=("Helvetica", 8)).pack(side="bottom", pady=(0, 8))
 
-    # --- Use Case Implementations ---
-
+    # --- Actions ---
     def upload_image(self):
         file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg;*.jpeg;*.bmp")])
         if file_path:
             self.image_path = file_path
-            
             img = Image.open(self.image_path)
             img.thumbnail((380, 280)) 
             img_tk = ImageTk.PhotoImage(img)
@@ -154,50 +126,42 @@ class OcrGuiApp:
             self.image_label.configure(image=img_tk, text="")
             self.image_label.image = img_tk 
             
-            self.process_btn.config(state=tk.NORMAL)
+            self.process_btn.config(state=tk.NORMAL, bg=MAPUA_RED, fg="white", cursor="hand2")
             self.output_text.delete(1.0, tk.END)
 
     def process_image(self):
         if not self.image_path: return
             
         self.output_text.delete(1.0, tk.END)
-        self.output_text.insert(tk.END, "Initializing TFLite Runtime...\nRunning local inference...")
+        self.output_text.insert(tk.END, "Calling Teammate's TFLite Engine...\nProcessing...")
         self.root.update()
         
         try:
-            img_processor = ImageProcessor()
-            ocr_engine    = OCRRecognizer()
-            eqn_engine    = EqnRecognizer()
-            tflite_model  = TensorFlowLite()
+            # INSTANTIATE THE MOCKS (Your teammate will swap these 3 names to their class names)
+            ocr_engine   = MockOCREngine()
+            eqn_engine   = MockEqnEngine()
+            tflite_model = MockTFLiteModel()
             
-            img_processor.preprocess(self.image_path)
             tflite_model.loadModel()
-            
-            text_result = ocr_engine.recognizeText(self.image_path)
+            text_result = ocr_engine.extract_text(self.image_path)
             eqn_result  = eqn_engine.recognizeEquation(self.image_path)
             
             final_output = f"--- DETECTED STANDARD TEXT ---\n{text_result}\n\n\n--- DETECTED MATHEMATICAL EQUATION ---\n{eqn_result}"
             
             self.output_text.delete(1.0, tk.END)
             self.output_text.insert(tk.END, final_output)
-            self.save_btn.config(state=tk.NORMAL)
+            self.save_btn.config(state=tk.NORMAL, bg="#0D9488", fg="white", cursor="hand2")
             
         except Exception as e:
-            messagebox.showerror("Inference Error", f"Failed to execute model:\n{str(e)}")
+            messagebox.showerror("Engine Error", f"Backend failed to respond:\n{str(e)}")
 
     def save_result(self):
         result_content = self.output_text.get(1.0, tk.END).strip()
         if not result_content: return
-            
-        file_path = filedialog.asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=[("Text Document", "*.txt")],
-            title="Export TFLite Output"
-        )
+        file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Document", "*.txt")], title="Export Output")
         if file_path:
-            with open(file_path, "w") as file:
-                file.write(result_content)
-            messagebox.showinfo("Export Success", f"File saved successfully to:\n{file_path}")
+            with open(file_path, "w") as f: f.write(result_content)
+            messagebox.showinfo("Export Success", "Saved to Data Access Layer.")
 
 if __name__ == "__main__":
     root = tk.Tk()
