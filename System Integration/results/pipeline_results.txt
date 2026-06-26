@@ -1,0 +1,63 @@
+======================================================================
+SECTION 1: TrOCR — Plain Text Recognition
+======================================================================
+Image      Ground Truth (LaTeX)                               TrOCR Output
+----------------------------------------------------------------------
+img1       x̄ = (x_1 + x_2 + ... + x_n) / n = Σ(i=1 to n) x_i / n ***
+img2       μ = Σ(i=1 to N) x_i * f(x_i) = Σ(i=1 to N) x_i / N "-SW(M)-4*
+img3       s^2 = Σ(i=1 to n)(x_i - x̄)^2 / (n - 1)            -Z(X-X
+img4       Σ(i=1 to 8)(x_i - x̄)^2 = 1.60                     Z(W-R) =1.60
+img5       s = √0.2286 = 0.48 pounds                          * = $0.2286 = 0.48 POUNDS
+img6       s^2 = Σ(i=1 to n)(x_i - x̄)^2 / (n - 1)            ----
+img7       Σ(i=1 to n)(x_i^2 + x̄^2 - 2*x̄*x_i) / (n - 1)     &(W) - 2%)
+img8       o^2 = Σ(i=1 to N)(x_i - μ)^2 / N                   6_Z(N-W)
+img9       n < 8 or 10                                        # <8.OR 10
+img10      r_xy = Σ(i=1 to n) y_i(x_i - x̄) / [ Σ(i=1 to n)(y_i - ȳ)^2 * Σ(i=1 to n)(x_i - x̄)^2 ]^(1/2 TAX-***-***
+img11      (j - 0.5) / n = P(Z ≤ z_j) = Φ                     J=05_P(ZSZ)=Q
+img12      (j - 0.5) / n = 0.05, Φ(z_j)                       (J-0.5)/N=0.05,@(Z))
+img13      Σ(i=1 to n) (x_i - a)^2                            Z(X-4)
+img14      y_i = a + b*x_i                                    >,-(L)-BX)
+img15      (j - 0.5) / 10                                     V-05MM
+
+======================================================================
+SECTION 2: LaTeX Equation Recognition (pix2tex)
+======================================================================
+Image      Ground Truth (LaTeX)                               LaTeX OCR Output                    Error Type
+------------------------------------------------------------------------------------------
+img1       x̄ = (x_1 + x_2 + ... + x_n) / n = Σ(i=1 to n) x_i / n \begin{array}{c}{{\displaystyle\sum_{i}^{\mathrm{de}}\sum_{i=1}^{\mathrm{di}}\sum_{i=1}^{\mathrm{di}}\lambda_{i}}}\\ {{\displaystyle\left.\vec{\chi}\right.\equiv{\frac{\langle{\mathbf{j}}_{i}+\mathrm{d}_{i}+\nu_{i}+\lambda_{i}}{\frac{\langle{\mathbf{j}}_{i}\rangle}{\hbar|}}}}}\end{array} Symbol substitution
+img2       μ = Σ(i=1 to N) x_i * f(x_i) = Σ(i=1 to N) x_i / N |1=\sum_{i=1}^{N}\chi_{i}f{\big(}x_{i}{\big)}={\frac{\sum_{i=1}^{N}\chi_{i}}{N}} Symbol substitution
+img3       s^2 = Σ(i=1 to n)(x_i - x̄)^2 / (n - 1)            s^{z}={\frac{\sum_{i=1,\varepsilon}^{*}\left(x_{i}-{\overline{{x}}}\right)^{z}}{n-1}} Symbol substitution
+img4       Σ(i=1 to 8)(x_i - x̄)^2 = 1.60                     \sum_{r=r}^{s}\left\langle r_{r}-{\vec{x}}\right\rangle^{2}=I_{r}(t) Symbol substitution
+img5       s = √0.2286 = 0.48 pounds                          {\frac{x={\sqrt{\vert y.2286}}}{\longrightarrow}}=0.48\,\mathrm{paunds} Symbol substitution
+img6       s^2 = Σ(i=1 to n)(x_i - x̄)^2 / (n - 1)            \mathbf{t}={\frac{\sum_{a=1}^{*}\left(\lambda_{i}-{\bar{\lambda}}\right)^{\mathrm{t}}}{n-1}} Symbol substitution
+img7       Σ(i=1 to n)(x_i^2 + x̄^2 - 2*x̄*x_i) / (n - 1)     \begin{array}{l}{{\dot{\hat{z}}\left(x_{i}^{\parallel}\div{\bar{x}}^{\bar{z}}-2\bar{x}_{i}\right)}}\\ {{\hat{z}={\frac{}{n-1}}}}\end{array} Symbol substitution
+img8       o^2 = Σ(i=1 to N)(x_i - μ)^2 / N                   \sigma^{\pm}=\frac{\sum_{i=1}^{N}\left(x_{i}-\mu\right)^{3}}{N^{'}} Symbol substitution
+img9       n < 8 or 10                                        \mu<8{\mathrm{~or~}}\left[y\right]  Symbol substitution
+img10      r_xy = Σ(i=1 to n) y_i(x_i - x̄) / [ Σ(i=1 to n)(y_i - ȳ)^2 * Σ(i=1 to n)(x_i - x̄)^2 ]^(1/2 r={\frac{\dot{\hat{x}}^{*}y_{i}(x_{i}-{\bar{x}})}{\left[{\frac{x^{*}}{\hat{\sum}}}(y_{i}-{\bar{y}})^{2}{\sum_{i=1}^{*}(x_{i}-{\bar{x}})^{2}}\right]^{i n}}} Symbol substitution
+img11      (j - 0.5) / n = P(Z ≤ z_j) = Φ                     {\frac{j-0.5}{n}}=J(Z\leq z_{J})=\Phi Symbol substitution
+img12      (j - 0.5) / n = 0.05, Φ(z_j)                       (j-0.5)\,j\,n=0.05,\Phi(z_{j})      Symbol substitution
+img13      Σ(i=1 to n) (x_i - a)^2                            \prime\sum_{-\!\hat{-}\!\hat{--}\infty\nu^{*}\!\hat{r}^{*}}\langle\!\langle x_{t}-a\rangle^{2},~| Symbol substitution
+img14      y_i = a + b*x_i                                    \cdot j=q\ast b x_{i}               Symbol substitution
+img15      (j - 0.5) / 10                                     {\frac{-\frac{i{\sqrt{-\mathrm{d}}\xi|t|}}{\sqrt{-{\mathrm{d}}\xi}}}} Symbol substitution
+
+======================================================================
+SECTION 4: Final Comparison Table
+======================================================================
+Image      Ground Truth                                       TrOCR Output              LaTeX OCR Output                    Error
+--------------------------------------------------------------------------------------------------------------
+img1       x̄ = (x_1 + x_2 + ... + x_n) / n = Σ(i=1 to n) x_i / n ***                       \begin{array}{c}{{\displaystyle\sum_{i}^{\mathrm{de}}\sum_{i=1}^{\mathrm{di}}\sum_{i=1}^{\mathrm{di}}\lambda_{i}}}\\ {{\displaystyle\left.\vec{\chi}\right.\equiv{\frac{\langle{\mathbf{j}}_{i}+\mathrm{d}_{i}+\nu_{i}+\lambda_{i}}{\frac{\langle{\mathbf{j}}_{i}\rangle}{\hbar|}}}}}\end{array} Symbol substitution
+img2       μ = Σ(i=1 to N) x_i * f(x_i) = Σ(i=1 to N) x_i / N "-SW(M)-4*                |1=\sum_{i=1}^{N}\chi_{i}f{\big(}x_{i}{\big)}={\frac{\sum_{i=1}^{N}\chi_{i}}{N}} Symbol substitution
+img3       s^2 = Σ(i=1 to n)(x_i - x̄)^2 / (n - 1)            -Z(X-X                    s^{z}={\frac{\sum_{i=1,\varepsilon}^{*}\left(x_{i}-{\overline{{x}}}\right)^{z}}{n-1}} Symbol substitution
+img4       Σ(i=1 to 8)(x_i - x̄)^2 = 1.60                     Z(W-R) =1.60              \sum_{r=r}^{s}\left\langle r_{r}-{\vec{x}}\right\rangle^{2}=I_{r}(t) Symbol substitution
+img5       s = √0.2286 = 0.48 pounds                          * = $0.2286 = 0.48 POUNDS {\frac{x={\sqrt{\vert y.2286}}}{\longrightarrow}}=0.48\,\mathrm{paunds} Symbol substitution
+img6       s^2 = Σ(i=1 to n)(x_i - x̄)^2 / (n - 1)            ----                      \mathbf{t}={\frac{\sum_{a=1}^{*}\left(\lambda_{i}-{\bar{\lambda}}\right)^{\mathrm{t}}}{n-1}} Symbol substitution
+img7       Σ(i=1 to n)(x_i^2 + x̄^2 - 2*x̄*x_i) / (n - 1)     &(W) - 2%)                \begin{array}{l}{{\dot{\hat{z}}\left(x_{i}^{\parallel}\div{\bar{x}}^{\bar{z}}-2\bar{x}_{i}\right)}}\\ {{\hat{z}={\frac{}{n-1}}}}\end{array} Symbol substitution
+img8       o^2 = Σ(i=1 to N)(x_i - μ)^2 / N                   6_Z(N-W)                  \sigma^{\pm}=\frac{\sum_{i=1}^{N}\left(x_{i}-\mu\right)^{3}}{N^{'}} Symbol substitution
+img9       n < 8 or 10                                        # <8.OR 10                \mu<8{\mathrm{~or~}}\left[y\right]  Symbol substitution
+img10      r_xy = Σ(i=1 to n) y_i(x_i - x̄) / [ Σ(i=1 to n)(y_i - ȳ)^2 * Σ(i=1 to n)(x_i - x̄)^2 ]^(1/2 TAX-***-***               r={\frac{\dot{\hat{x}}^{*}y_{i}(x_{i}-{\bar{x}})}{\left[{\frac{x^{*}}{\hat{\sum}}}(y_{i}-{\bar{y}})^{2}{\sum_{i=1}^{*}(x_{i}-{\bar{x}})^{2}}\right]^{i n}}} Symbol substitution
+img11      (j - 0.5) / n = P(Z ≤ z_j) = Φ                     J=05_P(ZSZ)=Q             {\frac{j-0.5}{n}}=J(Z\leq z_{J})=\Phi Symbol substitution
+img12      (j - 0.5) / n = 0.05, Φ(z_j)                       (J-0.5)/N=0.05,@(Z))      (j-0.5)\,j\,n=0.05,\Phi(z_{j})      Symbol substitution
+img13      Σ(i=1 to n) (x_i - a)^2                            Z(X-4)                    \prime\sum_{-\!\hat{-}\!\hat{--}\infty\nu^{*}\!\hat{r}^{*}}\langle\!\langle x_{t}-a\rangle^{2},~| Symbol substitution
+img14      y_i = a + b*x_i                                    >,-(L)-BX)                \cdot j=q\ast b x_{i}               Symbol substitution
+img15      (j - 0.5) / 10                                     V-05MM                    {\frac{-\frac{i{\sqrt{-\mathrm{d}}\xi|t|}}{\sqrt{-{\mathrm{d}}\xi}}}} Symbol substitution
+s
