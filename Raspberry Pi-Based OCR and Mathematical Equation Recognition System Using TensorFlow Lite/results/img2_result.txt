@@ -1,0 +1,5 @@
+Image      : C:/Users/renpg/Downloads/dataset project/CLEANED/img2.jpg
+Output     : 
+Confidence : 0.0%
+Tokens     : []
+Time       : 131.89 ms

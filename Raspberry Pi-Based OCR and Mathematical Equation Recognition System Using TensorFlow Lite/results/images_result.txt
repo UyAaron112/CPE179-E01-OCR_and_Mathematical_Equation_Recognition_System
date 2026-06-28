@@ -1,0 +1,11 @@
+Image      : C:/Users/renpg/Downloads/images.png
+Output     : — Linear equations )
+y =ax+b
+y= 6x +8
+y = -bx + 4
+y=mx+b
+
+. Cost = 2n + 4 .
+Confidence : 68.55%
+Tokens     : ['—', 'linear', 'equations', '=ax+b', 'y=', '6x', '+8', '-bx', '4', 'y=mx+b', 'cost', '2n', '4']
+Time       : 267.13 ms

@@ -1,0 +1,5 @@
+Image      : C:/Users/renpg/Downloads/dataset project/CLEANED/img9.jpg
+Output     : n<8or ld
+Confidence : 64.5%
+Tokens     : ['n', '8or', 'ld']
+Time       : 421.24 ms

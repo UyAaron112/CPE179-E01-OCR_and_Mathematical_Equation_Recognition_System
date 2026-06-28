@@ -1,0 +1,6 @@
+Image      : C:/Users/renpg/Downloads/equation-examples-21.jpg
+Output     : y=-8x+4
+8x + 4y = 0
+Confidence : 81.33%
+Tokens     : ['y=-8x+4', '8x', '4y', '0']
+Time       : 184.99 ms

@@ -1,0 +1,5 @@
+Image      : C:/Users/renpg/Downloads/dataset project/CLEANED/img11.jpg
+Output     : {-05 _.
+Confidence : 20.0%
+Tokens     : ['-05']
+Time       : 132.61 ms

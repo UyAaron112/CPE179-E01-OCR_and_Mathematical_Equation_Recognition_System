@@ -1,0 +1,5 @@
+Image      : C:/Users/renpg/Downloads/dataset project/CLEANED/img13.jpg
+Output     : (Di ale ~ ay.
+Confidence : 36.25%
+Tokens     : ['di', 'ale', 'ay']
+Time       : 159.61 ms
