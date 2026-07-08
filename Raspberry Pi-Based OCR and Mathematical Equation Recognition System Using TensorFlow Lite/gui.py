@@ -280,7 +280,7 @@ class OcrGuiApp:
     # ACTIONS
     # ─────────────────────────────────────────
 
-   def upload_image(self):
+def upload_image(self):
     """Open file dialog and display selected image."""
     path = filedialog.askopenfilename(
         filetypes=[
@@ -290,8 +290,8 @@ class OcrGuiApp:
             ("All files", "*.*")
         ]
     )
-        if not path:
-            return
+    if not path:
+        return
 
         self.image_path = path
 
