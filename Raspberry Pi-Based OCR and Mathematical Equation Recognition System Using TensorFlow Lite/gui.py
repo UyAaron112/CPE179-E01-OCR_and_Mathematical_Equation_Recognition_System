@@ -1,12 +1,7 @@
-# ui.py
-# Mapúa University — CPE179P Group 6
-# Raspberry Pi OCR & Math Equation Recognition System
-# Tkinter UI integrated with Tesseract OCR backend
 
 import os
 import time
 import string
-import platform
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
@@ -15,10 +10,11 @@ import pytesseract
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-
-# Windows only — Pi finds Tesseract automatically
+import platform
 if platform.system() == "Windows":
-    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    pytesseract.pytesseract.tesseract_cmd = (
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    )
 
 nltk.download("stopwords", quiet=True)
 nltk.download("punkt", quiet=True)
@@ -46,13 +42,13 @@ COLOR_BLUE   = "#0284C7"
 COLOR_TEAL   = "#0D9488"
 
 # ─────────────────────────────────────────
-# OCR BACKEND
+# OCR BACKEND — from pipeline_pi.py
 # ─────────────────────────────────────────
 
 stop_words = set(stopwords.words("english"))
 
 def preprocess_image(image_path):
-    """Grayscale -> denoise -> adaptive threshold -> upscale."""
+    """Grayscale → denoise → adaptive threshold → upscale."""
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise FileNotFoundError(f"Cannot read image: {image_path}")
@@ -67,10 +63,13 @@ def preprocess_image(image_path):
 
 
 def run_tesseract(image_path):
-    """Run Tesseract OCR. Returns (text, confidence, tokens, ms)."""
-    img     = preprocess_image(image_path)
-    pil_img = Image.fromarray(img)
-    config  = r"--psm 6 --oem 3"
+    """
+    Run Tesseract OCR on the image.
+    Returns: (text, confidence, tokens, inference_ms)
+    """
+    img        = preprocess_image(image_path)
+    pil_img    = Image.fromarray(img)
+    config     = r"--psm 6 --oem 3"
 
     start = time.time()
     text  = pytesseract.image_to_string(pil_img, config=config).strip()
@@ -87,10 +86,7 @@ def run_tesseract(image_path):
     confidence = round(sum(confs) / len(confs), 2) if confs else 0.0
 
     tokens = word_tokenize(text)
-    tokens = [
-        t.lower() for t in tokens
-        if t not in string.punctuation and t not in stop_words
-    ]
+    tokens = [t.lower() for t in tokens if t not in string.punctuation and t not in stop_words]
 
     return text, confidence, tokens, ms
 
@@ -117,7 +113,7 @@ class OcrGuiApp:
         self.root       = root
         self.image_path = None
 
-        self.root.title("Mapua OCR & Equation Recognition System")
+        self.root.title("Mapúa OCR & Equation Recognition System")
         self.root.geometry("940x640")
         self.root.configure(bg=BG_PAGE)
         self.root.resizable(False, False)
@@ -131,11 +127,11 @@ class OcrGuiApp:
         hf = tk.Frame(self.root, bg=MAPUA_RED, height=75)
         hf.pack(fill="x", side="top")
         hf.pack_propagate(False)
-        tk.Label(hf, text="MAPUA UNIVERSITY",
+        tk.Label(hf, text="MAPÚA UNIVERSITY",
                  font=("Helvetica", 18, "bold"),
                  bg=MAPUA_RED, fg=MAPUA_GOLD).pack(pady=(10, 0))
         tk.Label(hf,
-                 text="CPE179P  -  Raspberry Pi OCR & Mathematical Equation Recognition System",
+                 text="CPE179P  •  Raspberry Pi OCR & Mathematical Equation Recognition System",
                  font=("Helvetica", 10),
                  bg=MAPUA_RED, fg="#FFFFFF").pack()
 
@@ -143,10 +139,11 @@ class OcrGuiApp:
     def _build_main(self):
         container = tk.Frame(self.root, bg=BG_PAGE)
         container.pack(fill="both", expand=True, padx=20, pady=15)
+
         self._build_left(container)
         self._build_right(container)
 
-    # ── LEFT CARD ────────────────────────
+    # ── LEFT CARD (Input) ─────────────────
     def _build_left(self, parent):
         card = tk.Frame(parent, bg=BG_CARD, bd=1, relief="solid",
                         highlightbackground=BORDER_COLOR)
@@ -156,6 +153,7 @@ class OcrGuiApp:
                  font=("Helvetica", 11, "bold"),
                  bg=BG_CARD, fg=TEXT_MAIN).pack(anchor="w", padx=20, pady=(15, 10))
 
+        # Image preview frame
         self.img_frame = tk.Frame(card, width=400, height=290, bg="#E2E8F0")
         self.img_frame.pack(padx=20, pady=5)
         self.img_frame.pack_propagate(False)
@@ -167,6 +165,7 @@ class OcrGuiApp:
         )
         self.img_label.pack(expand=True)
 
+        # Buttons
         btn_row = tk.Frame(card, bg=BG_CARD)
         btn_row.pack(pady=(15, 20))
 
@@ -181,7 +180,7 @@ class OcrGuiApp:
         self.upload_btn.pack(side="left", padx=6)
 
         self.process_btn = tk.Button(
-            btn_row, text="Run OCR",
+            btn_row, text="Run OCR ▶",
             font=("Helvetica", 10, "bold"),
             bg="#E2E8F0", fg="#94A3B8",
             relief="flat", padx=15, pady=8,
@@ -190,7 +189,7 @@ class OcrGuiApp:
         self.process_btn.pack(side="left", padx=6)
 
         self.clear_btn = tk.Button(
-            btn_row, text="Clear",
+            btn_row, text="✖ Clear",
             font=("Helvetica", 10, "bold"),
             bg="#E2E8F0", fg="#94A3B8",
             relief="flat", padx=10, pady=8,
@@ -198,12 +197,13 @@ class OcrGuiApp:
         )
         self.clear_btn.pack(side="left", padx=6)
 
-    # ── RIGHT CARD ───────────────────────
+    # ── RIGHT CARD (Output) ───────────────
     def _build_right(self, parent):
         card = tk.Frame(parent, bg=BG_CARD, bd=1, relief="solid",
                         highlightbackground=BORDER_COLOR)
         card.pack(side="right", fill="both", expand=True, padx=(10, 0))
 
+        # Header row
         right_header = tk.Frame(card, bg=BG_CARD)
         right_header.pack(fill="x", padx=20, pady=(15, 5))
 
@@ -218,23 +218,25 @@ class OcrGuiApp:
         )
         self.status_label.pack(side="right")
 
+        # Metrics row — confidence + time
         metrics_row = tk.Frame(card, bg=BG_CARD)
         metrics_row.pack(fill="x", padx=20, pady=(0, 8))
 
         self.conf_label = tk.Label(
-            metrics_row, text="Confidence: --",
+            metrics_row, text="Confidence: —",
             font=("Helvetica", 10, "bold"),
             bg=BG_CARD, fg=TEXT_MUTED
         )
         self.conf_label.pack(side="left", padx=(0, 20))
 
         self.time_label = tk.Label(
-            metrics_row, text="Inference Time: --",
+            metrics_row, text="Inference Time: —",
             font=("Helvetica", 10, "bold"),
             bg=BG_CARD, fg=TEXT_MUTED
         )
         self.time_label.pack(side="left")
 
+        # Scrollable text output
         output_frame = tk.Frame(card, bg=BG_CARD, bd=1, relief="solid",
                                 highlightbackground=BORDER_COLOR)
         output_frame.pack(fill="both", expand=True, padx=20, pady=5)
@@ -252,8 +254,9 @@ class OcrGuiApp:
         self.output_text.pack(side="left", fill="both", expand=True)
         scrollbar.config(command=self.output_text.yview)
 
+        # Export button
         self.save_btn = tk.Button(
-            card, text="Export Output to .TXT",
+            card, text="⭳ Export Output to .TXT",
             font=("Helvetica", 10, "bold"),
             bg="#E2E8F0", fg="#94A3B8",
             relief="flat", padx=20, pady=8,
@@ -265,7 +268,7 @@ class OcrGuiApp:
     def _build_footer(self):
         tk.Label(
             self.root,
-            text="Computer Engineering Dept.  -  Mapua University  -  CPE179P Group 6",
+            text="Computer Engineering Dept.  •  Mapúa University  •  CPE179P Group 6",
             bg=BG_PAGE, fg=TEXT_MUTED, font=("Helvetica", 8)
         ).pack(side="bottom", pady=(0, 8))
 
@@ -277,27 +280,28 @@ class OcrGuiApp:
         """Open file dialog and display selected image."""
         path = filedialog.askopenfilename(
             filetypes=[
-                ("Image Files", "*.png *.jpg *.jpeg *.bmp"),
-                ("PNG files", "*.png"),
-                ("JPG files", "*.jpg *.jpeg"),
-                ("All files", "*.*")
-            ]
+    ("Image Files", "*.png *.jpg *.jpeg *.bmp"),
+    ("All Files", "*")
+]
         )
         if not path:
             return
 
         self.image_path = path
 
+        # Display preview
         img    = Image.open(path)
         img.thumbnail((400, 290))
         img_tk = ImageTk.PhotoImage(img)
         self.img_label.configure(image=img_tk, text="")
         self.img_label.image = img_tk
 
+        # Reset output area
         self.output_text.delete(1.0, tk.END)
-        self.conf_label.config(text="Confidence: --", fg=TEXT_MUTED)
-        self.time_label.config(text="Inference Time: --", fg=TEXT_MUTED)
+        self.conf_label.config(text="Confidence: —", fg=TEXT_MUTED)
+        self.time_label.config(text="Inference Time: —", fg=TEXT_MUTED)
 
+        # Enable buttons
         self.process_btn.config(state=tk.NORMAL, bg=MAPUA_RED, fg="white", cursor="hand2")
         self.clear_btn.config(state=tk.NORMAL, bg="#94A3B8", fg="white", cursor="hand2")
         self.save_btn.config(state=tk.DISABLED, bg="#E2E8F0", fg="#94A3B8", cursor="arrow")
@@ -314,28 +318,36 @@ class OcrGuiApp:
 
         try:
             text, confidence, tokens, ms = run_tesseract(self.image_path)
+
+            # Save result automatically
             saved_path = save_result(self.image_path, text, confidence, tokens, ms)
 
+            # Update metrics
             self.conf_label.config(
                 text=f"Confidence: {confidence}%",
                 fg=COLOR_GREEN if confidence >= 50 else MAPUA_RED
             )
-            self.time_label.config(text=f"Inference Time: {ms} ms", fg=TEXT_MAIN)
+            self.time_label.config(
+                text=f"Inference Time: {ms} ms",
+                fg=TEXT_MAIN
+            )
 
+            # Build output display
             output = (
-                f"--- RECOGNIZED EQUATION / TEXT ---\n"
+                f"─── RECOGNIZED EQUATION / TEXT ───\n"
                 f"{text if text else '[No text detected]'}\n\n"
-                f"--- CONFIDENCE SCORE ---\n"
+                f"─── CONFIDENCE SCORE ───\n"
                 f"{confidence}%\n\n"
-                f"--- INFERENCE TIME ---\n"
+                f"─── INFERENCE TIME ───\n"
                 f"{ms} ms\n\n"
-                f"--- CLEANED TOKENS ---\n"
+                f"─── CLEANED TOKENS ───\n"
                 f"{tokens}\n\n"
-                f"--- RESULT SAVED TO ---\n"
+                f"─── RESULT SAVED TO ───\n"
                 f"{saved_path}"
             )
             self.output_text.insert(tk.END, output)
 
+            # Enable export
             self.save_btn.config(state=tk.NORMAL, bg=COLOR_TEAL, fg="white", cursor="hand2")
             self.status_label.config(text="Status: Inference complete.", fg=COLOR_GREEN)
 
@@ -344,7 +356,7 @@ class OcrGuiApp:
             messagebox.showerror("OCR Error", f"Failed to process image:\n{str(e)}")
 
     def export_result(self):
-        """Export output text to a .txt file."""
+        """Export output text to a .txt file chosen by user."""
         content = self.output_text.get(1.0, tk.END).strip()
         if not content:
             return
@@ -361,19 +373,27 @@ class OcrGuiApp:
     def clear_ui(self):
         """Reset the UI to its initial state."""
         self.image_path = None
-        self.img_label.configure(image="", text="No Image Uploaded\n(Supported: JPG, PNG)")
+
+        self.img_label.configure(
+            image="",
+            text="No Image Uploaded\n(Supported: JPG, PNG)"
+        )
         self.img_label.image = None
+
         self.output_text.delete(1.0, tk.END)
-        self.conf_label.config(text="Confidence: --", fg=TEXT_MUTED)
-        self.time_label.config(text="Inference Time: --", fg=TEXT_MUTED)
+        self.conf_label.config(text="Confidence: —", fg=TEXT_MUTED)
+        self.time_label.config(text="Inference Time: —", fg=TEXT_MUTED)
         self.status_label.config(text="Status: Waiting for image...", fg=TEXT_MUTED)
+
         self.process_btn.config(state=tk.DISABLED, bg="#E2E8F0", fg="#94A3B8", cursor="arrow")
         self.save_btn.config(state=tk.DISABLED, bg="#E2E8F0", fg="#94A3B8", cursor="arrow")
         self.clear_btn.config(state=tk.DISABLED, bg="#E2E8F0", fg="#94A3B8", cursor="arrow")
 
+
+# ─────────────────────────────────────────
+# ENTRY POINT
+# ─────────────────────────────────────────
 if __name__ == "__main__":
     root = tk.Tk()
     app  = OcrGuiApp(root)
     root.mainloop()
-
-    
