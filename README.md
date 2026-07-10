@@ -173,7 +173,7 @@ pip install tflite-runtime
 ### Run the Application
 
 ```bash
-python main.py
+gui.py
 ```
 
 ### Steps
